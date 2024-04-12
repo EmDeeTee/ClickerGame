@@ -63,6 +63,7 @@ namespace ClickerGame {
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
             StateSaver.SaveState();
             StateSaver.CreateDBTableWithValues("CompletedAchievements", Achievement.Achievements.Where(x => x.IsCompleted).Select(x => x.Name).ToArray());
+            Log.Flush();
         }
 
         public void SetQuote(string quote) {

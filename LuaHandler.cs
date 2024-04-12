@@ -38,9 +38,9 @@ namespace ClickerGame
             Lua["ShowMessage"] = new Action<string>(Game.ShowMessage);
             Lua["CompleteAchievement"] = new Action<Achievement>(Achievement.CompleteAchievement);
 
-            Lua["Achievements"] = Achievement.Achievements;
-            Lua.RegisterFunction("CreateAchievement", typeof(Achievement).GetMethod("CreateAchievement"));
-            Lua.RegisterFunction("GetAchievement", typeof(Achievement).GetMethod("GetAchievement"));
+            Lua["Achievements"] = Game.Achievements;
+            Lua.RegisterFunction("CreateAchievement", typeof(Game).GetMethod("CreateAchievement"));
+            Lua.RegisterFunction("GetAchievement", typeof(Game).GetMethod("GetAchievement"));
         }
 
         public static object InvokeEvent(string name, object[] args) {

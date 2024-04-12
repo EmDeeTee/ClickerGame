@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ClickerGame
@@ -17,23 +19,33 @@ namespace ClickerGame
             new Upgrade("Better Clicks 1", 1, 10),
         };
 
-        /*public static Achievement[] Achievements = new Achievement[] {
-            new Achievement("nice", "Get 69 points"),
-            new Achievement("Hot reload!", "Press R to reload LUA script"),
-        };*/
+        public static List<Achievement> Achievements = new List<Achievement>();
 
+        public static void ApplayUpgrade(Upgrade upgrade) {
+            ClickPayout += upgrade.Ammount;
+        }
         public static void InitUpgrades() {
             foreach (Upgrade upgrade in Upgrades) {
                 Form1.Instance.AddUpgradeToList(upgrade);
             }
         }
 
-        public static void AddPoints(int points) {
-            Points += points;
+        public static void InitAchievements() {
+            Achievements.Add(new Achievement("nice", "Get 69 points"));
+            Achievements.Add(new Achievement("Hot reload!", "Press R to reload LUA script"));
         }
 
-        public static void ApplayUpgrade(Upgrade upgrade) {
-            ClickPayout += upgrade.Ammount;
+        // Has to be like that for LUA bridge
+        public static void CreateAchievement(string name, string description) {
+            Achievements.Add(new Achievement(name, description));
+        }
+
+        public static Achievement GetAchievement(string name) {
+            return Achievements.First(x => x.Name == name);
+        }
+
+        public static void AddPoints(int points) {
+            Points += points;
         }
 
         // A wrapper for MessageBox.Show for bridge to LUA

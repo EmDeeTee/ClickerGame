@@ -22,6 +22,7 @@ namespace ClickerGame {
             Thread.Sleep(1000);
             UpdatePoints();
             Game.InitUpgrades();
+            Game.InitAchievements();
             LuaHandler.BridgeCSToLUA();
             LuaHandler.InitQuote();
             Game.Points = StateSaver.ReadState();
@@ -29,7 +30,7 @@ namespace ClickerGame {
             LuaHandler.InvokeEvent("OnGameStart", new object[] {});
 
 
-            Achievement.Achievements
+            Game.Achievements
             .Where(a => StateSaver.ReadDBTableWithValues("CompletedAchievements").Contains(a.Name))
             .ToList().ForEach(a => a.Complete());
         }
@@ -62,7 +63,7 @@ namespace ClickerGame {
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
             StateSaver.SaveState();
-            StateSaver.CreateDBTableWithValues("CompletedAchievements", Achievement.Achievements.Where(x => x.IsCompleted).Select(x => x.Name).ToArray());
+            StateSaver.CreateDBTableWithValues("CompletedAchievements", Game.Achievements.Where(x => x.IsCompleted).Select(x => x.Name).ToArray());
             Log.Flush();
         }
 
@@ -88,7 +89,7 @@ namespace ClickerGame {
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to erase the database?", "Alert", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes) {
                 StateSaver.EraseDatabase();
-                Achievement.Achievements.ForEach(a => a.Lock());
+                Game.Achievements.ForEach(a => a.Lock());
                 Game.Points = 0;
                 Application.Restart();
             }
@@ -96,7 +97,7 @@ namespace ClickerGame {
         private void Form1_KeyDown(object sender, KeyEventArgs e)  {
             if (e.KeyCode == Keys.R) {
                 LuaHandler.InitQuote();
-                Achievement.CompleteAchievement(Achievement.GetAchievement("Hot reload!"));
+                Achievement.CompleteAchievement(Game.GetAchievement("Hot reload!"));
             }
         }
 

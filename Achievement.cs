@@ -7,8 +7,6 @@ using System.Windows.Forms;
 
 namespace ClickerGame {
     public class Achievement {
-        //private static int CurrentId = 0;
-
         public int Id { get; private set; } 
         public string Name { get; private set; } 
         public string Description { get; private set; }
@@ -16,7 +14,6 @@ namespace ClickerGame {
         public bool IsCompleted { get; private set; }
 
         public Achievement(string name, string description) {
-            //Id = CurrentId;
             Id = Game.Achievements.Count;
             Name = name;
             Description = description;

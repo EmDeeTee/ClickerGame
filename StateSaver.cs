@@ -32,6 +32,7 @@ namespace ClickerGame
         }
 
         public static void SaveState() {
+            // TODO: Not everything is saved. And this game should probably not use an SQL DB to store it.
             using (SQLiteConnection DB = ConnectOrCreate())
             {
                 DB.Open();

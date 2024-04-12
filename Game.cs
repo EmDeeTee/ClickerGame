@@ -15,9 +15,7 @@ namespace ClickerGame
         }
         public static int ClickPayout { get; private set; } = 1;
 
-        public static Upgrade[] Upgrades = new Upgrade[] {
-            new Upgrade("Better Clicks 1", 1, 10),
-        };
+        public static List<Upgrade> Upgrades = new List<Upgrade>();
 
         public static List<Achievement> Achievements = new List<Achievement>();
 
@@ -25,6 +23,8 @@ namespace ClickerGame
             ClickPayout += upgrade.Ammount;
         }
         public static void InitUpgrades() {
+            Upgrades.Add(new Upgrade("Better Clicks 1", 1, 10));
+
             foreach (Upgrade upgrade in Upgrades) {
                 Form1.Instance.AddUpgradeToList(upgrade);
             }

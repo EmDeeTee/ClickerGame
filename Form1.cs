@@ -21,18 +21,13 @@ namespace ClickerGame {
             Task waitDialogTask = ShowWaitDialogAsync();
             Thread.Sleep(1000);
             UpdatePoints();
-            Game.InitUpgrades();
-            Game.InitAchievements();
+            Game.Instance.InitUpgrades();
+            Game.Instance.InitAchievements();
             LuaHandler.BridgeCSToLUA();
             LuaHandler.InitQuote();
-            Game.Points = StateSaver.ReadState();
+            StateSaver.LoadGameInstance();
 
             LuaHandler.InvokeEvent("OnGameStart", new object[] {});
-
-
-            Game.Achievements
-            .Where(a => StateSaver.ReadDBTableWithValues("CompletedAchievements").Contains(a.Name))
-            .ToList().ForEach(a => a.Complete());
         }
 
         public async Task ShowWaitDialogAsync()  {
@@ -46,7 +41,7 @@ namespace ClickerGame {
         // I'm trying to separate the visual stuff from the logic
         // So the visual components, like the points label are 'private' and are invisible to other classes
         public void UpdatePoints() {
-            LabelPoints.Text = Game.Points.ToString();
+            LabelPoints.Text = Game.Instance.Points.ToString();
         }
 
         public void AddUpgradeToList(Upgrade upgrade) {
@@ -58,12 +53,11 @@ namespace ClickerGame {
         }
 
         private void ButtonClick_Click(object sender, EventArgs e) {
-            Game.HandleClick();
+            Game.Instance.HandleClick();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
-            StateSaver.SaveState();
-            StateSaver.CreateDBTableWithValues("CompletedAchievements", Game.Achievements.Where(x => x.IsCompleted).Select(x => x.Name).ToArray());
+            StateSaver.SaveGameInstance();
             Log.Flush();
         }
 
@@ -76,28 +70,29 @@ namespace ClickerGame {
             if (item == null)
                 return;
 
-            Upgrade SelectedUpgrade = Game.Upgrades.FirstOrDefault(upgrade => upgrade.Name == item.ToString());
-            if (SelectedUpgrade.Cost > Game.Points) 
+            Upgrade SelectedUpgrade = Game.Instance.Upgrades.FirstOrDefault(upgrade => upgrade.Name == item.ToString());
+
+            if (SelectedUpgrade.Cost > Game.Instance.Points) 
                 return;
-            Game.Points -= SelectedUpgrade.Cost;
+            Game.Instance.Points -= SelectedUpgrade.Cost;
             RemoveUpgradeFromList(item.ToString());
-            Game.ApplayUpgrade(SelectedUpgrade);
+            Game.Instance.ApplayUpgrade(SelectedUpgrade);
             UpdatePoints();
         }
 
         private void ButtonClear_Click(object sender, EventArgs e) {
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to erase the database?", "Alert", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes) {
-                StateSaver.EraseDatabase();
-                Game.Achievements.ForEach(a => a.Lock());
-                Game.Points = 0;
+                StateSaver.EraseSavedInstance();
+                Game.Instance.Achievements.ForEach(a => a.Lock());
+                Game.Instance.Points = 0;
                 Application.Restart();
             }
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)  {
             if (e.KeyCode == Keys.R) {
                 LuaHandler.InitQuote();
-                Achievement.CompleteAchievement(Game.GetAchievement("Hot reload!"));
+                Achievement.CompleteAchievement(Game.Instance.GetAchievement("Hot reload!"));
             }
         }
 

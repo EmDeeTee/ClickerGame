@@ -16,7 +16,7 @@ namespace ClickerGame {
         }
 
         private void PopulateList() {
-            foreach (Achievement achievement in Game.Achievements) {
+            foreach (Achievement achievement in Game.Instance.Achievements) {
                 ListBoxA.Items.Add(achievement);
             }
         }

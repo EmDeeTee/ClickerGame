@@ -14,7 +14,7 @@ namespace ClickerGame {
         public bool IsCompleted { get; private set; }
 
         public Achievement(string name, string description) {
-            Id = Game.Achievements.Count;
+            Id = Game.Instance.Achievements.Count;
             Name = name;
             Description = description;
         }

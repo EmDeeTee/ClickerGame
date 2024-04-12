@@ -35,12 +35,12 @@ namespace ClickerGame
         }
 
         public static void BridgeCSToLUA() {
-            Lua["ShowMessage"] = new Action<string>(Game.ShowMessage);
+            Lua["ShowMessage"] = new Action<string>(Game.Instance.ShowMessage);
             Lua["CompleteAchievement"] = new Action<Achievement>(Achievement.CompleteAchievement);
 
-            Lua["Achievements"] = Game.Achievements;
-            Lua.RegisterFunction("CreateAchievement", typeof(Game).GetMethod("CreateAchievement"));
-            Lua.RegisterFunction("GetAchievement", typeof(Game).GetMethod("GetAchievement"));
+            Lua["Achievements"] = Game.Instance.Achievements;
+            Lua.RegisterFunction("CreateAchievement", Game.Instance, typeof(Game).GetMethod("CreateAchievement"));
+            Lua.RegisterFunction("GetAchievement", Game.Instance, typeof(Game).GetMethod("GetAchievement"));
         }
 
         public static object InvokeEvent(string name, object[] args) {

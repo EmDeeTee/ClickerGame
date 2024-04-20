@@ -19,7 +19,7 @@ namespace ClickerGame
                 Log.Write("No save option enabled");
             }
 
-            Game.InitGame();
+            //Game.InitGame();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

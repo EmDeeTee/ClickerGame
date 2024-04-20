@@ -40,8 +40,8 @@ namespace ClickerGame {
         public static void CompleteAchievement(Achievement achievement) {
             if (achievement.IsCompleted) return;
 
-            MessageBox.Show($"Achievement \"{achievement.Name}\" completed");
             achievement.Complete();
+            MessageBox.Show($"Achievement \"{achievement.Name}\" completed");
         }
     }
 }

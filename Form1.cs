@@ -28,6 +28,7 @@ namespace ClickerGame {
             StateSaver.LoadGameInstance();
 
             LuaHandler.InvokeEvent("OnGameStart", new object[] {});
+            Game.StartBackgroundWorker();
         }
 
         public async Task ShowWaitDialogAsync()  {
@@ -48,6 +49,7 @@ namespace ClickerGame {
                 }));
             }
 
+            // NOTE: I think this will crash sometimes due to cross thread stuff...?
             LabelPoints.Text = Game.Instance.Points.ToString();
         }
 

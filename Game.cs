@@ -10,25 +10,26 @@ using System.Windows.Forms;
 namespace ClickerGame
 {
     public class Game {
-        //TODO: Add OnPointsChanged event for LUA
-        public static Game Instance = null;
+        public static Game Instance = new Game();
 
         private int _points = 0;
         public int Points {
             get { return _points; }
-            set { _points = value; Form1.Instance?.UpdatePoints(); } 
+            set { 
+                _points = value;
+                Form1.Instance?.UpdatePoints();
+                LuaHandler.InvokeEvent("OnPointsChanged", new object[] { _points });
+            } 
         }
         public int ClickPayout { get; set; } = 1;
-        public int PointsOverTime = 0;
+        public int PointsOverTime = 1;
         public int BackgroundWorkerRefreshTimeMs = 1000;
 
         public List<Upgrade> Upgrades = new List<Upgrade>();
 
         public List<Achievement> Achievements = new List<Achievement>();
 
-
-        public static void InitGame() {
-            Instance = new Game();
+        public static void StartBackgroundWorker() {
             Thread backgroundWorker = new Thread(delegate () { Instance.HandleBackgroundComputation(); });
             backgroundWorker.Start();
         }
@@ -74,7 +75,7 @@ namespace ClickerGame
 
         public void HandleBackgroundComputation() {
             while (true) {
-                Points += PointsPerSecond;
+                Points += PointsOverTime;
                 Thread.Sleep(BackgroundWorkerRefreshTimeMs);
             }
         }

@@ -66,7 +66,7 @@ namespace ClickerGame
 
         // A wrapper for MessageBox.Show for bridge to LUA
         public void ShowMessage(object msg) {
-            MessageBox.Show(msg.ToString());
+            MessageBox.Show(Form1.Instance, msg.ToString());
         }
 
         public void HandleClick() {

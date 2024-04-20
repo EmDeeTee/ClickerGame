@@ -116,6 +116,7 @@
     <Compile Include="Log.cs" />
     <Compile Include="LuaHandler.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProgramArgumentParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateSaver.cs" />
     <Compile Include="TestClass.cs" />

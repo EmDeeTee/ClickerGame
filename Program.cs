@@ -12,8 +12,13 @@ namespace ClickerGame
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
-        {
+        static void Main(string[] args) {
+            Log.Write("Program startup");
+            ProgramArgumentParser.Parse(args);
+            if (ProgramArgumentParser.Option(ProgramArgumentParser.OPTIONS.NO_SAVE)) {
+                Log.Write("No save option enabled");
+            }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

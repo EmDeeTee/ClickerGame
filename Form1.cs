@@ -41,6 +41,13 @@ namespace ClickerGame {
         // I'm trying to separate the visual stuff from the logic
         // So the visual components, like the points label are 'private' and are invisible to other classes
         public void UpdatePoints() {
+            if (LabelPoints.InvokeRequired) {
+                LabelPoints.Invoke(new MethodInvoker(delegate
+                {
+                    LabelPoints.Text = Game.Instance.Points.ToString();
+                }));
+            }
+
             LabelPoints.Text = Game.Instance.Points.ToString();
         }
 
@@ -59,6 +66,8 @@ namespace ClickerGame {
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
             StateSaver.SaveGameInstance();
             Log.Flush();
+            Application.Exit();
+            Environment.Exit(0);
         }
 
         public void SetQuote(string quote) {
@@ -69,7 +78,7 @@ namespace ClickerGame {
             object item = ListBoxUpgrades.SelectedItem;
             if (item == null)
                 return;
-
+            
             Upgrade SelectedUpgrade = Game.Instance.Upgrades.FirstOrDefault(upgrade => upgrade.Name == item.ToString());
 
             if (SelectedUpgrade.Cost > Game.Instance.Points) 

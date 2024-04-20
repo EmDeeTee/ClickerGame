@@ -4,23 +4,34 @@ using System.ComponentModel;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ClickerGame
 {
     public class Game {
-        public static Game Instance = new Game();
+        //TODO: Add OnPointsChanged event for LUA
+        public static Game Instance = null;
 
         private int _points = 0;
         public int Points {
             get { return _points; }
-            set {_points = value; Form1.Instance.UpdatePoints(); } 
+            set { _points = value; Form1.Instance?.UpdatePoints(); } 
         }
         public int ClickPayout { get; set; } = 1;
+        public int PointsOverTime = 0;
+        public int BackgroundWorkerRefreshTimeMs = 1000;
 
         public List<Upgrade> Upgrades = new List<Upgrade>();
 
         public List<Achievement> Achievements = new List<Achievement>();
+
+
+        public static void InitGame() {
+            Instance = new Game();
+            Thread backgroundWorker = new Thread(delegate () { Instance.HandleBackgroundComputation(); });
+            backgroundWorker.Start();
+        }
 
         public void ApplayUpgrade(Upgrade upgrade) {
             ClickPayout += upgrade.Ammount;
@@ -57,8 +68,15 @@ namespace ClickerGame
         }
 
         public void HandleClick() {
-            Points += ClickPayout;
+            AddPoints(ClickPayout);
             Points = Convert.ToInt32(LuaHandler.InvokeEvent("OnButtonClick", new object[] { Points }));
+        }
+
+        public void HandleBackgroundComputation() {
+            while (true) {
+                Points += PointsPerSecond;
+                Thread.Sleep(BackgroundWorkerRefreshTimeMs);
+            }
         }
     }
 }

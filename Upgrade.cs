@@ -2,6 +2,7 @@
     public class Upgrade {
         // NOTE: What in the holy fork is an ammount? I forgor.
         // TODO: There is no bool to indicate whether the upgrade is bough or not.
+        // TODO: Rework upgrades to allow for upgrading different systems, like points over time. Not only points per click
         public int Ammount { get; private set; } 
         public int Cost { get; private set; }
         public string Name { get; private set; }

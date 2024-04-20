@@ -68,8 +68,6 @@ namespace ClickerGame {
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
             StateSaver.SaveGameInstance();
             Log.Flush();
-            Application.Exit();
-            Environment.Exit(0);
         }
 
         public void SetQuote(string quote) {
@@ -95,8 +93,6 @@ namespace ClickerGame {
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to erase the database?", "Alert", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes) {
                 StateSaver.EraseSavedInstance();
-                Game.Instance.Achievements.ForEach(a => a.Lock());
-                Game.Instance.Points = 0;
                 Application.Restart();
             }
         }

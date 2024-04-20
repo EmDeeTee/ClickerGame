@@ -31,6 +31,7 @@ namespace ClickerGame
 
         public static void StartBackgroundWorker() {
             Thread backgroundWorker = new Thread(delegate () { Instance.HandleBackgroundComputation(); });
+            backgroundWorker.IsBackground = true;
             backgroundWorker.Start();
         }
 

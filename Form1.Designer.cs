@@ -37,7 +37,10 @@
             this.LabelQuote = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.toolStripMenuShow = new System.Windows.Forms.ToolStripMenuItem();
             this.achievementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuOptions = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Upgrades.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -126,19 +129,43 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.achievementToolStripMenuItem});
+            this.toolStripMenuShow,
+            this.toolStripMenuOptions});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(168, 24);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // toolStripMenuShow
+            // 
+            this.toolStripMenuShow.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.achievementToolStripMenuItem});
+            this.toolStripMenuShow.Name = "toolStripMenuShow";
+            this.toolStripMenuShow.Size = new System.Drawing.Size(48, 20);
+            this.toolStripMenuShow.Text = "Show";
+            // 
             // achievementToolStripMenuItem
             // 
             this.achievementToolStripMenuItem.Name = "achievementToolStripMenuItem";
-            this.achievementToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
+            this.achievementToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.achievementToolStripMenuItem.Text = "&Achievements";
-            this.achievementToolStripMenuItem.Click += new System.EventHandler(this.achievementToolStripMenuItem_Click);
+            this.achievementToolStripMenuItem.Click += new System.EventHandler(this.achievementToolStripMenuItem_Click_1);
+            // 
+            // toolStripMenuOptions
+            // 
+            this.toolStripMenuOptions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveNowToolStripMenuItem});
+            this.toolStripMenuOptions.Name = "toolStripMenuOptions";
+            this.toolStripMenuOptions.Size = new System.Drawing.Size(61, 20);
+            this.toolStripMenuOptions.Text = "Options";
+            // 
+            // saveNowToolStripMenuItem
+            // 
+            this.saveNowToolStripMenuItem.Name = "saveNowToolStripMenuItem";
+            this.saveNowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveNowToolStripMenuItem.Text = "&Save now";
+            this.saveNowToolStripMenuItem.Click += new System.EventHandler(this.saveNowToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -179,7 +206,10 @@
         private System.Windows.Forms.Label LabelQuote;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuShow;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuOptions;
         private System.Windows.Forms.ToolStripMenuItem achievementToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveNowToolStripMenuItem;
     }
 }
 

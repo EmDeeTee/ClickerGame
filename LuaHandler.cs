@@ -13,6 +13,7 @@ namespace ClickerGame
     public static class LuaHandler {
         static Lua Lua = new Lua();
         
+        // TODO: The name is misleading, as it not only inits the quote, but also reloads the whole LUA script
         public static void InitQuote() {
             if (!File.Exists("Script.lua")) {
                 MessageBox.Show("Script.lua not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

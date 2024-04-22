@@ -21,11 +21,11 @@ namespace ClickerGame {
             Task waitDialogTask = ShowWaitDialogAsync();
             Thread.Sleep(1000);
             UpdatePoints();
-            Game.Instance.InitUpgrades();
             Game.Instance.InitAchievements();
             LuaHandler.BridgeCSToLUA();
             LuaHandler.InitQuote();
             StateSaver.LoadGameInstance();
+            Game.Instance.InitUpgrades();
 
             LuaHandler.InvokeEvent("OnGameStart", new object[] {});
             Game.StartBackgroundWorker();
@@ -66,7 +66,9 @@ namespace ClickerGame {
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
-            StateSaver.SaveGameInstance();
+            if (!ProgramArgumentParser.Option(ProgramArgumentParser.OPTIONS.NO_SAVE)) {
+                StateSaver.SaveGameInstance();
+            }
             Log.Flush();
         }
 
@@ -85,8 +87,7 @@ namespace ClickerGame {
                 return;
             Game.Instance.Points -= SelectedUpgrade.Cost;
             RemoveUpgradeFromList(item.ToString());
-            Game.Instance.ApplayUpgrade(SelectedUpgrade);
-            UpdatePoints();
+            SelectedUpgrade.Apply();
         }
 
         private void ButtonClear_Click(object sender, EventArgs e) {
@@ -104,7 +105,15 @@ namespace ClickerGame {
         }
 
         private void achievementToolStripMenuItem_Click(object sender, EventArgs e) {
+            //new AchievementsForm().ShowDialog();
+        }
+
+        private void achievementToolStripMenuItem_Click_1(object sender, EventArgs e) {
             new AchievementsForm().ShowDialog();
+        }
+
+        private void saveNowToolStripMenuItem_Click(object sender, EventArgs e) {
+            StateSaver.SaveGameInstance();
         }
     }
 }

@@ -22,10 +22,14 @@ namespace ClickerGame
             } 
         }
         public int ClickPayout { get; set; } = 1;
-        public int PointsOverTime = 1;
+        public int PointsOverTime = 0;
         public int BackgroundWorkerRefreshTimeMs = 1000;
 
-        public List<Upgrade> Upgrades = new List<Upgrade>();
+        public List<Upgrade> Upgrades = new List<Upgrade>() {
+            new Upgrade("Better Clicks 1", 10, () => {
+                Instance.ClickPayout++;
+            })
+        };
 
         public List<Achievement> Achievements = new List<Achievement>();
 
@@ -35,14 +39,11 @@ namespace ClickerGame
             backgroundWorker.Start();
         }
 
-        public void ApplayUpgrade(Upgrade upgrade) {
-            ClickPayout += upgrade.Ammount;
-        }
+        // TODO: This is meh
         public void InitUpgrades() {
-            Upgrades.Add(new Upgrade("Better Clicks 1", 1, 10));
-
             foreach (Upgrade upgrade in Upgrades) {
-                Form1.Instance.AddUpgradeToList(upgrade);
+                if (!upgrade.Purchased)
+                    Form1.Instance.AddUpgradeToList(upgrade);
             }
         }
 
